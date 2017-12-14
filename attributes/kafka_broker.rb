@@ -13,10 +13,6 @@ default['confluent']['kafka']['broker']['log_dir']                        = '/va
 default['confluent']['kafka']['broker']['log_dir_mode']                   = '0755'
 default['confluent']['kafka']['broker']['service']                        = 'kafka'
 default['confluent']['kafka']['broker']['service_action']                 = [:enable, :start]
-default['confluent']['kafka']['broker']['systemd_unit']                   = File.join(
-    "#{default['confluent']['kafka']['broker']['systemd_dir']}",
-    "#{default['confluent']['kafka']['broker']['kafka_service']}.service"
-)
 default['confluent']['kafka']['broker']['systemd_unit']                   =
     case node['platform_family']
       when 'debian'
@@ -49,6 +45,7 @@ default['confluent']['kafka']['broker']['environment_config'] = {
     'GC_LOG_ENABLED' => true,
 }
 
+default['confluent']['kafka']['broker']['zookeeper_connect'] = 'localhost:2181'
 default['confluent']['kafka']['broker']['config'] = {
     'confluent.support.customer.id'            => 'anonymous',
     'confluent.support.metrics.enable'         => true,
@@ -67,7 +64,6 @@ default['confluent']['kafka']['broker']['config'] = {
     'socket.send.buffer.bytes'                 => 102400,
     'transaction.state.log.min.isr'            => 1,
     'transaction.state.log.replication.factor' => 1,
-    'zookeeper.connect'                        => 'localhost:2181',
     'zookeeper.connection.timeout.ms'          => 6000,
 }
 

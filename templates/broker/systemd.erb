@@ -8,7 +8,7 @@ Documentation=https://docs.confluent.io/current/
 [Service]
 Type=simple
 EnvironmentFile=<%= node['confluent']['kafka']['broker']['environment_file'] %>
-ExecStart=/usr/bin/schema-registry-start <%= node['confluent']['kafka']['broker']['config_file'] %>
+ExecStart=/bin/kafka-server-start <%= node['confluent']['kafka']['broker']['config_file'] %>
 User=<%= node['confluent']['kafka']['broker']['user'] %>
 LimitNOFILE=<%= node['confluent']['kafka']['broker']['systemd_service_limitnofile'] %>
 KillMode=process

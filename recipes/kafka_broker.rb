@@ -18,6 +18,15 @@
 
 include_recipe('confluent::default')
 
+unless node['confluent']['kafka']['broker_id']
+  Chef::Application.fatal!("['confluent']['kafka']['broker_id'] must be specified.")
+end
+
+unless node['confluent']['kafka']['broker']['zookeeper_connect']
+  Chef::Application.fatal!("['confluent']['kafka']['broker']['zookeeper_connect'] must be specified.")
+end
+
+
 user node['confluent']['kafka']['broker']['user'] do
   comment 'Service Account for Kafka'
   system true
@@ -29,6 +38,11 @@ directory node['confluent']['kafka']['broker']['log_dir'] do
   mode node['confluent']['kafka']['broker']['log_dir_mode']
   recursive true
 end
+
+
+node['confluent']['kafka']['broker']['config'].merge(
+    'broker.id' => node['confluent']['kafka']['broker']['broker_id']
+)
 
 directory node['confluent']['kafka']['broker']['data_dir'] do
   owner node['confluent']['kafka']['broker']['user']

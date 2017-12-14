@@ -17,17 +17,23 @@ platforms:
   - name: centos-7
 
 suites:
-  - name: default
-    run_list:
-      - recipe[confluent::default]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
-    attributes:
   - name: broker
     run_list:
-      - recipe[confluent::broker]
+      - recipe[confluent::kafka_broker]
     verifier:
       inspec_tests:
         - test/smoke/default
     attributes:
+      confluent:
+        kafka:
+          broker_id: 1
+  - name: zookeeper
+    run_list:
+      - recipe[confluent::zookeeper]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      confluent:
+        zookeeper:
+          my_id: 1

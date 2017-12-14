@@ -1,0 +1,4 @@
+# Cooked by Chef
+<% node['confluent']['zookeeper']['logging_config'].sort.each do |key, value| %>
+<%= key %>=<%= value %>
+<% end %>
