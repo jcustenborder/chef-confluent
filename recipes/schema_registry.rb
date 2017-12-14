@@ -25,7 +25,7 @@ unless node['confluent']['schema_registry']['kafkastore_connection_url']
 end
 
 user node['confluent']['schema_registry']['user'] do
-  comment 'Service Account for schema_registry'
+  comment 'Service Account for Schema Registry'
   system true
 end
 
