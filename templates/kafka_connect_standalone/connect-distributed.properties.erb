@@ -1,0 +1,5 @@
+#Cooked by Chef
+dataDir=<%=node['confluent']['kafka']['connect_standalone']['data_dir'] %>
+<%- node['confluent']['kafka']['connect_standalone']['config'].sort.each do |key, value| -%>
+<%=key%>=<%=value%>
+<%- end -%>
