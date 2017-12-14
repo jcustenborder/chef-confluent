@@ -46,25 +46,26 @@ default['confluent']['kafka']['broker']['environment_config'] = {
 }
 
 default['confluent']['kafka']['broker']['zookeeper_connect'] = 'localhost:2181'
-default['confluent']['kafka']['broker']['config'] = {
-    'confluent.support.customer.id'            => 'anonymous',
-    'confluent.support.metrics.enable'         => true,
-    'group.initial.rebalance.delay.ms'         => 0,
-    'log.dirs'                                 => default['confluent']['kafka']['broker']['data_dir'].to_s,
-    'log.retention.check.interval.ms'          => 300000,
-    'log.retention.hours'                      => 168,
-    'log.segment.bytes'                        => 1073741824,
-    'num.io.threads'                           => 8,
-    'num.network.threads'                      => 3,
-    'num.partitions'                           => 1,
-    'num.recovery.threads.per.data.dir'        => 1,
-    'offsets.topic.replication.factor'         => 1,
-    'socket.receive.buffer.bytes'              => 102400,
-    'socket.request.max.bytes'                 => 104857600,
-    'socket.send.buffer.bytes'                 => 102400,
-    'transaction.state.log.min.isr'            => 1,
-    'transaction.state.log.replication.factor' => 1,
-    'zookeeper.connection.timeout.ms'          => 6000,
+default['confluent']['kafka']['broker']['config']            = {
+    'confluent.support.customer.id'                => 'anonymous',
+    'confluent.support.metrics.enable'             => true,
+    'group.initial.rebalance.delay.ms'             => 0,
+    'log.retention.check.interval.ms'              => 300000,
+    'log.retention.hours'                          => 168,
+    'log.segment.bytes'                            => 1073741824,
+    'num.io.threads'                               => 8,
+    'num.network.threads'                          => [3, node['cpu']['total'].to_i].max,
+    'num.partitions'                               => 1,
+    'num.recovery.threads.per.data.dir'            => 1,
+    'offsets.topic.replication.factor'             => 3,
+    'socket.receive.buffer.bytes'                  => 102400,
+    'socket.request.max.bytes'                     => 104857600,
+    'socket.send.buffer.bytes'                     => 102400,
+    'transaction.state.log.min.isr'                => 2,
+    'transaction.state.log.replication.factor'     => 3,
+    'zookeeper.connection.timeout.ms'              => 6000,
+    'metric.reporters'                             => 'io.confluent.metrics.reporter.ConfluentMetricsReporter',
+    'confluent.metrics.reporter.bootstrap.servers' => 'localhost:9092'
 }
 
 default['confluent']['kafka']['broker']['logging_config'] = {
