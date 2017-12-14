@@ -1,0 +1,10 @@
+# Managed by Chef
+<%-
+  options={}
+  options['LOG_DIR'] = node['confluent']['kafka']['connect_distributed']['log_dir']
+  options['KAFKA_LOG4J_OPTS'] = "-Dlog4j.configuration=file:#{node['confluent']['kafka']['connect_distributed']['logging_config_file'] }"
+  options['KAFKA_OPTS'] = node['confluent']['kafka']['connect_distributed']['kafka_opts']
+  options['KAFKA_HEAP_OPTS'] = node['confluent']['kafka']['connect_distributed']['heap_opts']
+  options.each do |key, value|
+-%><%=key%>='<%=value%>'
+<%- end -%>

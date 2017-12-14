@@ -47,3 +47,15 @@ suites:
       confluent:
         schema_registry:
           kafkastore_connection_url: localhost:2181
+  - name: connect-distributed
+    run_list:
+      - recipe[confluent::kafka_connect_distributed]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      confluent:
+        kafka:
+          connect_distributed:
+            bootstrap_servers: localhost:2181
+            group_id: testing
