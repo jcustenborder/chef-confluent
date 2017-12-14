@@ -1,0 +1,5 @@
+#Cooked by Chef
+dataDir=<%=node['confluent']['zookeeper']['data_dir'] %>
+<%- node['confluent']['zookeeper']['config'].sort.each do |key, value| -%>
+<%=key%>=<%=value%>
+<%- end -%>

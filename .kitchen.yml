@@ -37,3 +37,13 @@ suites:
       confluent:
         zookeeper:
           my_id: 1
+  - name: schema-registry
+    run_list:
+      - recipe[confluent::schema_registry]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      confluent:
+        schema_registry:
+          kafkastore_connection_url: localhost:2181
