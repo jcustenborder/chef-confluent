@@ -1,0 +1,5 @@
+#Cooked by Chef
+broker.id=<%= node['confluent']['kafka']['broker']['id'] %>
+<%- node['confluent']['kafka']['broker']['config'].sort.each do |key, value| -%>
+<%=key%>=<%=value%>
+<%- end -%>

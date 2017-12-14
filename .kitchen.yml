@@ -24,3 +24,10 @@ suites:
       inspec_tests:
         - test/smoke/default
     attributes:
+  - name: broker
+    run_list:
+      - recipe[confluent::broker]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:

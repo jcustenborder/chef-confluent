@@ -1,0 +1,4 @@
+# Cooked by Chef
+<% node['confluent']['kafka']['broker']['logging_config'].sort.each do |key, value| %>
+<%= key %>=<%= value %>
+<% end %>
