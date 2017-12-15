@@ -71,3 +71,15 @@ suites:
           connect_standalone:
             bootstrap_servers: localhost:2181
             group_id: testing
+  - name: connect-standalone
+    run_list:
+      - recipe[confluent::kafka_connect_standalone]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+      confluent:
+        kafka:
+          control_center:
+            bootstrap_servers: localhost:9092
+            zookeeper_connect: localhost:2181

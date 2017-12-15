@@ -1,0 +1,20 @@
+# Cooked by chef
+[Unit]
+Description=Apache Zookeeper by Confluent
+After=basic.target network-online.target
+Wants=basic.target
+Documentation=https://docs.confluent.io/current/
+
+[Service]
+Type=simple
+EnvironmentFile=<%= node['confluent']['control_center']['environment_file'] %>
+ExecStart=/usr/bin/zookeeper-server-start <%= node['confluent']['control_center']['config_file'] %>
+User=<%= node['confluent']['control_center']['user'] %>
+LimitNOFILE=<%= node['confluent']['control_center']['systemd_service_limitnofile'] %>
+KillMode=process
+RestartSec=5
+TimeoutStopSec=<%= node['confluent']['control_center']['systemd_service_timeoutstopsec'] %>
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

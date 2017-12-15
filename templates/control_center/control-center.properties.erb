@@ -1,0 +1,6 @@
+#Cooked by Chef
+bootstrap.servers=<%=node['confluent']['control_center']['bootstrap_servers'] %>
+zookeeper.connect=<%=node['confluent']['control_center']['zookeeper_connect'] %>
+<%- node['confluent']['control_center']['config'].sort.each do |key, value| -%>
+<%=key%>=<%=value%>
+<%- end -%>
