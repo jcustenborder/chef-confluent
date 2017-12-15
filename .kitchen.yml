@@ -25,7 +25,7 @@ suites:
         - test/smoke/default
     attributes:
       confluent:
-        kafka:
+        kafka_broker:
           broker_id: 1
   - name: zookeeper
     run_list:
@@ -55,8 +55,7 @@ suites:
         - test/smoke/default
     attributes:
       confluent:
-        kafka:
-          connect_distributed:
+        kafka_connect_distributed:
             bootstrap_servers: localhost:2181
             group_id: testing
   - name: connect-standalone
@@ -67,19 +66,17 @@ suites:
         - test/smoke/default
     attributes:
       confluent:
-        kafka:
-          connect_standalone:
+        kafka_connect_standalone:
             bootstrap_servers: localhost:2181
             group_id: testing
-  - name: connect-standalone
+  - name: control-center
     run_list:
-      - recipe[confluent::kafka_connect_standalone]
+      - recipe[confluent::control_center]
     verifier:
       inspec_tests:
         - test/smoke/default
     attributes:
       confluent:
-        kafka:
-          control_center:
-            bootstrap_servers: localhost:9092
-            zookeeper_connect: localhost:2181
+        control_center:
+          bootstrap_servers: localhost:9092
+          zookeeper_connect: localhost:2181

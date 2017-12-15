@@ -55,29 +55,40 @@ template node['confluent']['control_center']['config_file'] do
   owner node['confluent']['control_center']['config_file_owner']
   group 'root'
   mode node['confluent']['control_center']['config_file_mode']
-  source 'schema_registry/schema-registry.properties.erb'
+  source 'control_center/control-center.properties.erb'
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
 end
 
 template node['confluent']['control_center']['logging_config_file'] do
   owner node['confluent']['control_center']['logging_config_file_owner']
   group 'root'
   mode node['confluent']['control_center']['logging_config_file_mode']
-  source 'schema_registry/logging.config.properties.erb'
+  source 'control_center/logging.config.properties.erb'
 end
 
 template node['confluent']['control_center']['environment_file'] do
   owner node['confluent']['control_center']['environment_file_owner']
   group node['confluent']['control_center']['environment_file_group']
   mode node['confluent']['control_center']['environment_file_mode']
-  source 'schema_registry/environment.erb'
+  source 'control_center/environment.erb'
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
+end
+
+template node['confluent']['control_center']['file_limit_config'] do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  source 'control_center/limits.d.conf.erb'
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
 end
 
 template node['confluent']['control_center']['systemd_unit'] do
   owner node['confluent']['control_center']['environment_file_owner']
   group node['confluent']['control_center']['environment_file_group']
   mode node['confluent']['control_center']['environment_file_mode']
-  source 'schema_registry/systemd.erb'
+  source 'control_center/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
 end
 
 service node['confluent']['control_center']['service'] do

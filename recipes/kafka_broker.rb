@@ -18,68 +18,73 @@
 
 include_recipe('confluent::default')
 
-unless node['confluent']['kafka']['broker_id']
-  Chef::Application.fatal!("['confluent']['kafka']['broker_id'] must be specified.")
+required_attributes = %w(broker_id zookeeper_connect)
+
+required_attributes.each do |s|
+  unless node['confluent']['kafka_broker'][s]
+    Chef::Application.fatal!("node['confluent']['kafka_broker']['#{s}'] must be specified.")
+  end
 end
 
-unless node['confluent']['kafka']['broker']['zookeeper_connect']
-  Chef::Application.fatal!("['confluent']['kafka']['broker']['zookeeper_connect'] must be specified.")
-end
-
-
-user node['confluent']['kafka']['broker']['user'] do
+user node['confluent']['kafka_broker']['user'] do
   comment 'Service Account for Kafka'
   system true
 end
 
-directory node['confluent']['kafka']['broker']['log_dir'] do
-  owner node['confluent']['kafka']['broker']['user']
+directory node['confluent']['kafka_broker']['log_dir'] do
+  owner node['confluent']['kafka_broker']['user']
   group 'root'
-  mode node['confluent']['kafka']['broker']['log_dir_mode']
+  mode node['confluent']['kafka_broker']['log_dir_mode']
   recursive true
 end
 
-
-node['confluent']['kafka']['broker']['config'].merge(
-    'broker.id' => node['confluent']['kafka']['broker']['broker_id']
-)
-
-directory node['confluent']['kafka']['broker']['data_dir'] do
-  owner node['confluent']['kafka']['broker']['user']
+directory node['confluent']['kafka_broker']['data_dir'] do
+  owner node['confluent']['kafka_broker']['user']
   group 'root'
-  mode node['confluent']['kafka']['broker']['data_dir_mode']
+  mode node['confluent']['kafka_broker']['data_dir_mode']
   recursive true
 end
 
-template node['confluent']['kafka']['broker']['config_file'] do
-  owner node['confluent']['kafka']['broker']['config_file_owner']
+template node['confluent']['kafka_broker']['config_file'] do
+  owner node['confluent']['kafka_broker']['config_file_owner']
   group 'root'
-  mode node['confluent']['kafka']['broker']['config_file_mode']
+  mode node['confluent']['kafka_broker']['config_file_mode']
   source 'broker/server.properties.erb'
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
 end
 
-template node['confluent']['kafka']['broker']['logging_config_file'] do
-  owner node['confluent']['kafka']['broker']['logging_config_file_owner']
+template node['confluent']['kafka_broker']['logging_config_file'] do
+  owner node['confluent']['kafka_broker']['logging_config_file_owner']
   group 'root'
-  mode node['confluent']['kafka']['broker']['logging_config_file_mode']
+  mode node['confluent']['kafka_broker']['logging_config_file_mode']
   source 'broker/logging.config.properties.erb'
 end
 
-template node['confluent']['kafka']['broker']['environment_file'] do
-  owner node['confluent']['kafka']['broker']['environment_file_owner']
-  group node['confluent']['kafka']['broker']['environment_file_group']
-  mode node['confluent']['kafka']['broker']['environment_file_mode']
+template node['confluent']['kafka_broker']['environment_file'] do
+  owner node['confluent']['kafka_broker']['environment_file_owner']
+  group node['confluent']['kafka_broker']['environment_file_group']
+  mode node['confluent']['kafka_broker']['environment_file_mode']
   source 'broker/environment.erb'
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
 end
 
-template node['confluent']['kafka']['broker']['systemd_unit'] do
-  owner node['confluent']['kafka']['broker']['environment_file_owner']
-  group node['confluent']['kafka']['broker']['environment_file_group']
-  mode node['confluent']['kafka']['broker']['environment_file_mode']
+template node['confluent']['kafka_broker']['file_limit_config'] do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  source 'broker/limits.d.conf.erb'
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
+end
+
+template node['confluent']['kafka_broker']['systemd_unit'] do
+  owner node['confluent']['kafka_broker']['environment_file_owner']
+  group node['confluent']['kafka_broker']['environment_file_group']
+  mode node['confluent']['kafka_broker']['environment_file_mode']
   source 'broker/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
 end
 
-service node['confluent']['kafka']['broker']['service'] do
-  action node['confluent']['kafka']['broker']['service_action']
+service node['confluent']['kafka_broker']['service'] do
+  action node['confluent']['kafka_broker']['service_action']
 end

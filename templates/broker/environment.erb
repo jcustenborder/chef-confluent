@@ -1,10 +1,10 @@
 # Cooked by Chef
 <%-
   options={}
-  options['LOG_DIR'] = node['confluent']['kafka']['broker']['log_dir']
-  options['KAFKA_LOG4J_OPTS'] = "-Dlog4j.configuration=file:#{node['confluent']['kafka']['broker']['logging_config_file'] }"
-  options['KAFKA_OPTS'] = node['confluent']['kafka']['broker']['kafka_opts']
-  options['KAFKA_HEAP_OPTS'] = node['confluent']['kafka']['broker']['heap_opts']
+  options['LOG_DIR'] = node['confluent']['kafka_broker']['log_dir']
+  options['KAFKA_LOG4J_OPTS'] = "-Dlog4j.configuration=file:#{node['confluent']['kafka_broker']['logging_config_file'] }"
+  options['KAFKA_OPTS'] = node['confluent']['kafka_broker']['kafka_opts']
+  options['KAFKA_HEAP_OPTS'] = node['confluent']['kafka_broker']['heap_opts']
   options.each do |key, value|
 -%><%=key%>='<%=value%>'
 <%- end -%>

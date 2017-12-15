@@ -1,4 +1,4 @@
 # Cooked by Chef
-<% node['confluent']['kafka']['connect_distributed']['logging_config'].sort.each do |key, value| %>
+<% node['confluent']['kafka_connect_distributed']['logging_config'].sort.each do |key, value| %>
 <%= key %>=<%= value %>
 <% end %>

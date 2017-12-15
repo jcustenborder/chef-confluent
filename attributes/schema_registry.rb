@@ -17,11 +17,12 @@ default['confluent']['schema_registry']['systemd_unit']                   =
       when 'rhel'
         '/usr/lib/systemd/system/schema-registry.service'
     end
+default['confluent']['schema_registry']['file_limit_config']              = '/etc/security/limits.d/99-confluent-schema-registry.config'
+default['confluent']['schema_registry']['file_limit']                     = 65535
 default['confluent']['schema_registry']['systemd_unit_mode']              = '0644'
 default['confluent']['schema_registry']['systemd_unit_owner']             = 'root'
 default['confluent']['schema_registry']['systemd_unit_group']             = 'root'
-default['confluent']['schema_registry']['systemd_service_limitnofile']    = 65536
-default['confluent']['schema_registry']['systemd_service_timeoutstopsec'] = 300
+default['confluent']['schema_registry']['systemd_service_timeoutstopsec'] = 60
 
 
 default['confluent']['schema_registry']['environment_file']       =

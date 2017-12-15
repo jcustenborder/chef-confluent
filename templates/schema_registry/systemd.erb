@@ -10,7 +10,7 @@ Type=simple
 EnvironmentFile=<%= node['confluent']['schema_registry']['environment_file'] %>
 ExecStart=/bin/schema-registry-start <%= node['confluent']['schema_registry']['config_file'] %>
 User=<%= node['confluent']['schema_registry']['user'] %>
-LimitNOFILE=<%= node['confluent']['schema_registry']['systemd_service_limitnofile'] %>
+LimitNOFILE=<%= node['confluent']['schema_registry']['file_limit'] %>
 KillMode=process
 RestartSec=5
 TimeoutStopSec=<%= node['confluent']['schema_registry']['systemd_service_timeoutstopsec'] %>

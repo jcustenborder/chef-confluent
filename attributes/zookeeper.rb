@@ -20,10 +20,11 @@ default['confluent']['zookeeper']['systemd_unit']                   =
       when 'rhel'
         '/usr/lib/systemd/system/zookeeper.service'
     end
+default['confluent']['zookeeper']['file_limit_config']              = '/etc/security/limits.d/99-confluent-zookeeper.config'
+default['confluent']['zookeeper']['file_limit']                     = 65535
 default['confluent']['zookeeper']['systemd_unit_mode']              = '0644'
 default['confluent']['zookeeper']['systemd_unit_owner']             = 'root'
 default['confluent']['zookeeper']['systemd_unit_group']             = 'root'
-default['confluent']['zookeeper']['systemd_service_limitnofile']    = 65536
 default['confluent']['zookeeper']['systemd_service_timeoutstopsec'] = 300
 
 

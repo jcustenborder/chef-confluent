@@ -1,52 +1,55 @@
-default['confluent']['kafka']['broker']['user']              = 'kafka'
-default['confluent']['kafka']['broker']['config_file_owner'] = 'root'
-default['confluent']['kafka']['broker']['config_file_mode']  = '0644'
-default['confluent']['kafka']['broker']['config_file']       = '/etc/kafka/server.properties'
+default['confluent']['kafka_broker']['user']              = 'kafka'
+default['confluent']['kafka_broker']['config_file_owner'] = 'root'
+default['confluent']['kafka_broker']['config_file_mode']  = '0644'
+default['confluent']['kafka_broker']['config_file']       = '/etc/kafka/server.properties'
 
-default['confluent']['kafka']['broker']['logging_config_file_owner'] = 'root'
-default['confluent']['kafka']['broker']['logging_config_file_mode']  = '0644'
-default['confluent']['kafka']['broker']['logging_config_file']       = '/etc/kafka/server.logging.properties'
+default['confluent']['kafka_broker']['logging_config_file_owner'] = 'root'
+default['confluent']['kafka_broker']['logging_config_file_mode']  = '0644'
+default['confluent']['kafka_broker']['logging_config_file']       = '/etc/kafka/server.logging.properties'
 
-default['confluent']['kafka']['broker']['data_dir']                       = '/var/lib/kafka'
-default['confluent']['kafka']['broker']['data_dir_mode']                  = '0755'
-default['confluent']['kafka']['broker']['log_dir']                        = '/var/log/kafka'
-default['confluent']['kafka']['broker']['log_dir_mode']                   = '0755'
-default['confluent']['kafka']['broker']['service']                        = 'kafka'
-default['confluent']['kafka']['broker']['service_action']                 = [:enable, :start]
-default['confluent']['kafka']['broker']['systemd_unit']                   =
+default['confluent']['kafka_broker']['data_dir']                       = '/var/lib/kafka'
+default['confluent']['kafka_broker']['data_dir_mode']                  = '0755'
+default['confluent']['kafka_broker']['log_dir']                        = '/var/log/kafka'
+default['confluent']['kafka_broker']['log_dir_mode']                   = '0755'
+default['confluent']['kafka_broker']['service']                        = 'kafka'
+default['confluent']['kafka_broker']['service_action']                 = [:enable, :start]
+default['confluent']['kafka_broker']['systemd_unit']                   =
     case node['platform_family']
       when 'debian'
         '/lib/systemd/system/kafka.service'
       when 'rhel'
         '/usr/lib/systemd/system/kafka.service'
     end
-default['confluent']['kafka']['broker']['systemd_unit_mode']              = '0644'
-default['confluent']['kafka']['broker']['systemd_unit_owner']             = 'root'
-default['confluent']['kafka']['broker']['systemd_unit_group']             = 'root'
-default['confluent']['kafka']['broker']['systemd_service_limitnofile']    = 65536
-default['confluent']['kafka']['broker']['systemd_service_timeoutstopsec'] = 300
 
 
-default['confluent']['kafka']['broker']['environment_file']       =
+default['confluent']['kafka_broker']['file_limit_config'] = '/etc/security/limits.d/99-confluent-kafka-broker.config'
+default['confluent']['kafka_broker']['file_limit'] = 1000000
+default['confluent']['kafka_broker']['systemd_unit_mode']              = '0644'
+default['confluent']['kafka_broker']['systemd_unit_owner']             = 'root'
+default['confluent']['kafka_broker']['systemd_unit_group']             = 'root'
+default['confluent']['kafka_broker']['systemd_service_timeoutstopsec'] = 300
+
+
+default['confluent']['kafka_broker']['environment_file']       =
     case node['platform_family']
       when 'debian'
         '/etc/default/kafka'
       when 'rhel'
         '/etc/sysconfig/kafka'
     end
-default['confluent']['kafka']['broker']['environment_file_owner'] = 'root'
-default['confluent']['kafka']['broker']['environment_file_group'] = 'root'
-default['confluent']['kafka']['broker']['environment_file_mode']  = '0644'
-default['confluent']['kafka']['broker']['heap_opts']              = '-Xmx1000M'
-default['confluent']['kafka']['broker']['kafka_opts']             = '-Djava.net.preferIPv4Stack=true'
+default['confluent']['kafka_broker']['environment_file_owner'] = 'root'
+default['confluent']['kafka_broker']['environment_file_group'] = 'root'
+default['confluent']['kafka_broker']['environment_file_mode']  = '0644'
+default['confluent']['kafka_broker']['heap_opts']              = '-Xmx1000M'
+default['confluent']['kafka_broker']['kafka_opts']             = '-Djava.net.preferIPv4Stack=true'
 
-default['confluent']['kafka']['broker']['environment_config'] = {
+default['confluent']['kafka_broker']['environment_config'] = {
     'KAFKA_OPTS'     => '-Djava.net.preferIPv4Stack=true',
     'GC_LOG_ENABLED' => true,
 }
 
-default['confluent']['kafka']['broker']['zookeeper_connect'] = 'localhost:2181'
-default['confluent']['kafka']['broker']['config']            = {
+default['confluent']['kafka_broker']['zookeeper_connect'] = 'localhost:2181'
+default['confluent']['kafka_broker']['config']            = {
     'confluent.support.customer.id'                => 'anonymous',
     'confluent.support.metrics.enable'             => true,
     'group.initial.rebalance.delay.ms'             => 0,
@@ -68,7 +71,7 @@ default['confluent']['kafka']['broker']['config']            = {
     'confluent.metrics.reporter.bootstrap.servers' => 'localhost:9092'
 }
 
-default['confluent']['kafka']['broker']['logging_config'] = {
+default['confluent']['kafka_broker']['logging_config'] = {
     'log4j.rootLogger'                                   => 'INFO, stdout, roller, authorizer',
     'log4j.appender.stdout'                              => 'org.apache.log4j.ConsoleAppender',
     'log4j.appender.stdout.layout'                       => 'org.apache.log4j.PatternLayout',

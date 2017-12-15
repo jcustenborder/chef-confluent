@@ -8,9 +8,9 @@ Documentation=https://docs.confluent.io/current/
 [Service]
 Type=simple
 EnvironmentFile=<%= node['confluent']['control_center']['environment_file'] %>
-ExecStart=/usr/bin/zookeeper-server-start <%= node['confluent']['control_center']['config_file'] %>
+ExecStart=/bin/control-center-start <%= node['confluent']['control_center']['config_file'] %>
 User=<%= node['confluent']['control_center']['user'] %>
-LimitNOFILE=<%= node['confluent']['control_center']['systemd_service_limitnofile'] %>
+LimitNOFILE=<%= node['confluent']['control_center']['file_limit'] %>
 KillMode=process
 RestartSec=5
 TimeoutStopSec=<%= node['confluent']['control_center']['systemd_service_timeoutstopsec'] %>

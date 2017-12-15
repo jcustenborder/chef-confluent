@@ -7,13 +7,13 @@ Documentation=https://docs.confluent.io/current/
 
 [Service]
 Type=simple
-EnvironmentFile=<%= node['confluent']['kafka']['broker']['environment_file'] %>
-ExecStart=/bin/kafka-server-start <%= node['confluent']['kafka']['broker']['config_file'] %>
-User=<%= node['confluent']['kafka']['broker']['user'] %>
-LimitNOFILE=<%= node['confluent']['kafka']['broker']['systemd_service_limitnofile'] %>
+EnvironmentFile=<%= node['confluent']['kafka_broker']['environment_file'] %>
+ExecStart=/bin/kafka-server-start <%= node['confluent']['kafka_broker']['config_file'] %>
+User=<%= node['confluent']['kafka_broker']['user'] %>
+LimitNOFILE=<%= node['confluent']['kafka_broker']['file_limit'] %>
 KillMode=process
 RestartSec=5
-TimeoutStopSec=<%= node['confluent']['kafka']['broker']['systemd_service_timeoutstopsec'] %>
+TimeoutStopSec=<%= node['confluent']['kafka_broker']['systemd_service_timeoutstopsec'] %>
 Type=simple
 
 [Install]

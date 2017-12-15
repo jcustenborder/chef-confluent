@@ -10,7 +10,7 @@ Type=simple
 EnvironmentFile=<%= node['confluent']['zookeeper']['environment_file'] %>
 ExecStart=/usr/bin/zookeeper-server-start <%= node['confluent']['zookeeper']['config_file'] %>
 User=<%= node['confluent']['zookeeper']['user'] %>
-LimitNOFILE=<%= node['confluent']['zookeeper']['systemd_service_limitnofile'] %>
+LimitNOFILE=<%= node['confluent']['zookeeper']['file_limit'] %>
 KillMode=process
 RestartSec=5
 TimeoutStopSec=<%= node['confluent']['zookeeper']['systemd_service_timeoutstopsec'] %>

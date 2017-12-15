@@ -16,23 +16,24 @@ default['confluent']['control_center']['service_action']                 = [:ena
 default['confluent']['control_center']['systemd_unit']                   =
     case node['platform_family']
       when 'debian'
-        '/lib/systemd/system/zookeeper.service'
+        '/lib/systemd/system/confluent-control-center.service'
       when 'rhel'
-        '/usr/lib/systemd/system/zookeeper.service'
+        '/usr/lib/systemd/system/confluent-control-center.service'
     end
+default['confluent']['control_center']['file_limit_config']              = '/etc/security/limits.d/99-confluent-control-center.config'
+default['confluent']['control_center']['file_limit']                     = 1000000
 default['confluent']['control_center']['systemd_unit_mode']              = '0644'
 default['confluent']['control_center']['systemd_unit_owner']             = 'root'
 default['confluent']['control_center']['systemd_unit_group']             = 'root'
-default['confluent']['control_center']['systemd_service_limitnofile']    = 65536
 default['confluent']['control_center']['systemd_service_timeoutstopsec'] = 300
 
 
 default['confluent']['control_center']['environment_file']       =
     case node['platform_family']
       when 'debian'
-        '/etc/default/zookeeper'
+        '/etc/default/confluent-control-center'
       when 'rhel'
-        '/etc/sysconfig/zookeeper'
+        '/etc/sysconfig/confluent-control-center'
     end
 default['confluent']['control_center']['environment_file_owner'] = 'root'
 default['confluent']['control_center']['environment_file_group'] = 'root'
