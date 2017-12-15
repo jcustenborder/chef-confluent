@@ -18,3 +18,9 @@ issues_url 'https://github.com/jcustenborder/chef-confluent/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/jcustenborder/chef-confluent'
+supports 'ubuntu', '>=15.04'
+supports 'debian', '>=8.0'
+supports 'redhat', '>=7.0'
+supports 'centos', '>=7.0'
+
+

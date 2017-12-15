@@ -1,18 +1,31 @@
 # Description
 
+This cookbook is for installing and maintaining the [Confluent Platform](https://www.confluent.io). The default is to install and
+configure the enterprise version of the platform.
+
 
 # Requirements
+
+Internet access is required to install the packages from the Confluent Repositories. If this is not possible mirror the
+repositories to you local network.
+
+[Debian & Ubuntu](https://docs.confluent.io/current/installation/installing_cp.html#debian-and-ubuntu)
+
+[RHEL & Centos](https://docs.confluent.io/current/installation/installing_cp.html#rhel-and-centos)
 
 
 ## Platform:
 
-*No platforms defined*
+* ubuntu (>= 15.04)
+* debian (>= 8.0)
+* redhat (>= 7.0)
+* centos (>= 7.0)
 
 ## Cookbooks:
 
-* #<Logger:0x007fb04ed12d78> () (Recommended but not required)
-* #<Logger:0x007fb04ed12d78> () (Suggested but not required)
-* Conflicts with #<Logger:0x007fb04ed12d78> ()
+* #<Logger:0x007fb1dc1b4b68> () (Recommended but not required)
+* #<Logger:0x007fb1dc1b4b68> () (Suggested but not required)
+* Conflicts with #<Logger:0x007fb1dc1b4b68> ()
 
 # Attributes
 
