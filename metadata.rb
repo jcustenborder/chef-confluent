@@ -18,15 +18,3 @@ issues_url 'https://github.com/jcustenborder/chef-confluent/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/jcustenborder/chef-confluent'
-
-cookbook 'confluent'
-
-# all_recipies = %w(confluent::default confluent::control_center confluent::kakfa_broker
-# confluent::kafka_connect_distributed confluent::kafka_connect_standalone confluent::schema_registry confluent::zookeeper)
-#
-# recipe 'confluent::default', 'Manages the installation of the software repositories. Required by all recipes.'
-# recipe 'control_center', 'Manages the installation of Confluent Control Center.'
-# recipe 'kafka_broker', 'Manages the installation of an Apache Kafka Broker.'
-# recipe 'kafka_connect_distributed', 'Manages the installation of an Apache Kafka Connect worker in distributed mode.'
-# recipe 'kafka_connect_standalone', 'Manages the installation of an Apache Kafka Connect worker in standalone mode.'
-# recipe 'schema_registry', 'Manages the installation of an Apache Zookeeper server.'
