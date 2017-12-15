@@ -58,6 +58,7 @@ The following example shows how to use an internal repository instead of the Con
 }
 ```
 #>
+=end
 
 include_recipe('confluent::default')
 
