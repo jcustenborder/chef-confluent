@@ -1,6 +1,6 @@
 #
 # Cookbook:: confluent
-# Recipe:: default
+# Recipe:: control_center
 #
 # Copyright:: 2017, Jeremy Custenborder
 #
@@ -15,6 +15,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+=begin
+#<
+This recipe is used to install the Confluent Control Center monitoring application.
+#>
+=end
 
 require 'chef/application'
 

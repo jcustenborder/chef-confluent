@@ -15,12 +15,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+=begin
+#<
+This recipe is used to install the Confluent YUM or APT repositories and the installation package for the Confluent
+Platform.
+#>
+=end
 case node['platform_family']
   when 'debian'
     apt_repository 'confluent' do
-      uri node['confluent']['repository_url']
-      key node['confluent']['key_url']
+      uri node['confluent']['apt_repository_url']
+      key node['confluent']['apt_key_url']
       distribution 'stable'
       components ['main']
       arch 'amd64'
@@ -28,16 +33,16 @@ case node['platform_family']
   when 'rhel'
     yum_repository 'Confluent' do
       description 'Confluent repository'
-      baseurl node['confluent']['repository_url']
-      gpgkey node['confluent']['key_url']
+      baseurl node['confluent']['yum_repository_url']
+      gpgkey node['confluent']['yum_key_url']
       gpgcheck node['confluent']['gpg_check']
       enabled node['confluent']['repo_enabled']
     end
 
     yum_repository 'Confluent.dist' do
       description 'Confluent repository (dist)'
-      baseurl node['confluent']['dist_repository_url']
-      gpgkey node['confluent']['key_url']
+      baseurl node['confluent']['yum_dist_repository_url']
+      gpgkey node['confluent']['yum_key_url']
       gpgcheck node['confluent']['gpg_check']
       enabled node['confluent']['repo_enabled']
     end
