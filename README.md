@@ -10,9 +10,9 @@
 
 ## Cookbooks:
 
-* #<Logger:0x007fb283c66578> () (Recommended but not required)
-* #<Logger:0x007fb283c66578> () (Suggested but not required)
-* Conflicts with #<Logger:0x007fb283c66578> ()
+* #<Logger:0x007fb04ed12d78> () (Recommended but not required)
+* #<Logger:0x007fb04ed12d78> () (Suggested but not required)
+* Conflicts with #<Logger:0x007fb04ed12d78> ()
 
 # Attributes
 
@@ -297,7 +297,7 @@ This recipe is used to install an Apache Kafka Broker using the Confluent Platfo
 
 ### Examples
 
-### Standard installation
+#### Standard installation
 
 ```json
 {
@@ -312,7 +312,7 @@ This recipe is used to install an Apache Kafka Broker using the Confluent Platfo
 }
 ```
 
-### Internal Repository
+#### Internal Repository
 
 The following example shows how to use an internal repository instead of the Confluent official repositories.
 
