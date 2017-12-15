@@ -18,6 +18,47 @@
 =begin
 #<
 This recipe is used to install an Apache Kafka Connect worker in standalone mode using the Confluent installation packages.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "kafka_connect_standalone": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_standalone]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "kafka_connect_standalone": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_standalone]"
+  ]
+}
+```
 #>
 =end
 

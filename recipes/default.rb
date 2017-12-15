@@ -19,6 +19,36 @@
 #<
 This recipe is used to install the Confluent YUM or APT repositories and the installation package for the Confluent
 Platform.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
+```
+
+#### Internal repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
 #>
 =end
 case node['platform_family']

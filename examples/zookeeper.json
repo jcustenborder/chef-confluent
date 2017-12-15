@@ -1,0 +1,15 @@
+{
+  "confluent": {
+    "zookeeper": {
+      "myid": 1,
+      "config": {
+        "server.1": "zookeeper-01:2888:3888",
+        "server.2": "zookeeper-02:2888:3888",
+        "server.3": "zookeeper-03:2888:3888"
+      }
+    }
+  },
+  "run_list": [
+    "recipe[confluent::zookeeper]"
+  ]
+}

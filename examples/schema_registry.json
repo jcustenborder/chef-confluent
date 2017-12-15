@@ -1,0 +1,10 @@
+{
+  "confluent": {
+    "schema_registry": {
+      "kafkastore_connection_url": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::schema_registry]"
+  ]
+}

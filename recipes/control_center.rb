@@ -19,6 +19,48 @@
 =begin
 #<
 This recipe is used to install the Confluent Control Center monitoring application.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "control_center": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
+```
+
+#### Internal repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "control_center": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::control_center]"
+  ]
+}
+```
+
 #>
 =end
 

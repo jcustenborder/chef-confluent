@@ -1,6 +1,6 @@
 #
 # Cookbook:: confluent
-# Recipe:: default
+# Recipe:: schema_registry
 #
 # Copyright:: 2017, Jeremy Custenborder
 #
@@ -18,6 +18,45 @@
 =begin
 #<
 This recipe is used to install the Confluent Schema Registry using the Confluent installation packages.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "schema_registry": {
+      "kafkastore_connection_url": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::schema_registry]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "schema_registry": {
+      "kafkastore_connection_url": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::control_center]"
+  ]
+}
+```
 #>
 =end
 

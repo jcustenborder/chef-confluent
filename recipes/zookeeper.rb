@@ -18,6 +18,55 @@
 =begin
 #<
 This recipe is used to install an Apache Zookeeper server using the Confluent installation packages.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "zookeeper": {
+      "myid": 1,
+      "config": {
+        "server.1": "zookeeper-01:2888:3888",
+        "server.2": "zookeeper-02:2888:3888",
+        "server.3": "zookeeper-03:2888:3888"
+      }
+    }
+  },
+  "run_list": [
+    "recipe[confluent::zookeeper]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "zookeeper": {
+      "myid": 1,
+      "config": {
+        "server.1": "zookeeper-01:2888:3888",
+        "server.2": "zookeeper-02:2888:3888",
+        "server.3": "zookeeper-03:2888:3888"
+      }
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::zookeeper]"
+  ]
+}
+```
 #>
 =end
 

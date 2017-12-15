@@ -17,9 +17,47 @@
 # limitations under the License.
 =begin
 #<
-This recipe is used to install an Apache Kafka Broker using the Confluent installation packages.
+This recipe is used to install an Apache Kafka Broker using the Confluent Platform installations.
+
+@section Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "kafka_broker": {
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_broker]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "kafka_broker": {
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_broker]"
+  ]
+}
+```
 #>
-=end
 
 include_recipe('confluent::default')
 

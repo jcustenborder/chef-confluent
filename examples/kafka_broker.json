@@ -1,0 +1,10 @@
+{
+  "confluent": {
+    "kafka_broker": {
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_broker]"
+  ]
+}

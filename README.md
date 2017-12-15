@@ -10,9 +10,9 @@
 
 ## Cookbooks:
 
-* #<Logger:0x007ff4e8bef160> () (Recommended but not required)
-* #<Logger:0x007ff4e8bef160> () (Suggested but not required)
-* Conflicts with #<Logger:0x007ff4e8bef160> ()
+* #<Logger:0x007fb283c66578> () (Recommended but not required)
+* #<Logger:0x007fb283c66578> () (Suggested but not required)
+* Conflicts with #<Logger:0x007fb283c66578> ()
 
 # Attributes
 
@@ -54,22 +54,22 @@
 * `node['confluent']['repo_enabled']` - Repository Enabled: Flag to determine if the repository should be enabled. Defaults to `true`.
 * `node['confluent']['package']` - Package to install: Installation package that will be used to install the Confluent Platform. Defaults to `confluent-platform-2.11`.
 * `node['confluent']['manage_repo']` - Manage Repository: Flag to determine if the repository should be managed on the host machine. Defaults to `true`.
-* `node['confluent']['kafka_broker']['user']` -  Defaults to `kafka`.
-* `node['confluent']['kafka_broker']['config_file_owner']` -  Defaults to `root`.
-* `node['confluent']['kafka_broker']['config_file_mode']` -  Defaults to `0644`.
-* `node['confluent']['kafka_broker']['config_file']` -  Defaults to `/etc/kafka/server.properties`.
-* `node['confluent']['kafka_broker']['logging_config_file_owner']` -  Defaults to `root`.
-* `node['confluent']['kafka_broker']['logging_config_file_mode']` -  Defaults to `0644`.
-* `node['confluent']['kafka_broker']['logging_config_file']` -  Defaults to `/etc/kafka/server.logging.properties`.
-* `node['confluent']['kafka_broker']['data_dir']` -  Defaults to `/var/lib/kafka`.
-* `node['confluent']['kafka_broker']['data_dir_mode']` -  Defaults to `0755`.
-* `node['confluent']['kafka_broker']['log_dir']` -  Defaults to `/var/log/kafka`.
-* `node['confluent']['kafka_broker']['log_dir_mode']` -  Defaults to `0755`.
-* `node['confluent']['kafka_broker']['service']` -  Defaults to `kafka`.
-* `node['confluent']['kafka_broker']['service_action']` -  Defaults to `[ ... ]`.
-* `node['confluent']['kafka_broker']['systemd_unit']` -  Defaults to `case node['platform_family']`.
-* `node['confluent']['kafka_broker']['file_limit_config']` -  Defaults to `/etc/security/limits.d/99-confluent-kafka-broker.config`.
-* `node['confluent']['kafka_broker']['file_limit']` -  Defaults to `1000000`.
+* `node['confluent']['kafka_broker']['user']` - Kafka user: The username of the system account that will be created on the host machine. All data directories and log directories will be owned by this user. Defaults to `kafka`.
+* `node['confluent']['kafka_broker']['config_file_owner']` - Config File owner: The owner for the configuration file. Defaults to `root`.
+* `node['confluent']['kafka_broker']['config_file_mode']` - Config File mode: The permissions for the configuration file. Defaults to `0644`.
+* `node['confluent']['kafka_broker']['config_file']` - Config File: The path to the configuration file. Defaults to `/etc/kafka/server.properties`.
+* `node['confluent']['kafka_broker']['logging_config_file_owner']` - Logging Config File: The owner of the logging config. Defaults to `root`.
+* `node['confluent']['kafka_broker']['logging_config_file_mode']` - Logging Config Mode: The permissions for the logging config. Defaults to `0644`.
+* `node['confluent']['kafka_broker']['logging_config_file']` - Logging Config: The path to the logging config. Defaults to `/etc/kafka/server.logging.properties`.
+* `node['confluent']['kafka_broker']['data_dir']` - Data directory: The location to store the data. Defaults to `/var/lib/kafka`.
+* `node['confluent']['kafka_broker']['data_dir_mode']` - Data directory Mode: The permissions for the data directory. Defaults to `0755`.
+* `node['confluent']['kafka_broker']['log_dir']` - Log directory: The directory to store the application logs. Defaults to `/var/log/kafka`.
+* `node['confluent']['kafka_broker']['log_dir_mode']` - Log directory Mode: The permissions to the log directory. Defaults to `0755`.
+* `node['confluent']['kafka_broker']['service']` - Service Name: The name of the service. Defaults to `kafka`.
+* `node['confluent']['kafka_broker']['service_action']` - Service Action: The actions for the service. Defaults to `[ ... ]`.
+* `node['confluent']['kafka_broker']['systemd_unit']` - SystemD Unit: The path to the SystemD unit. Defaults to `case node['platform_family']`.
+* `node['confluent']['kafka_broker']['file_limit_config']` - Limit.d config: The path to the limit.d file for the service account user. Defaults to `/etc/security/limits.d/99-confluent-kafka-broker.config`.
+* `node['confluent']['kafka_broker']['file_limit']` - Limit.d nofile: The maximum number of file handles to the process. Defaults to `1000000`.
 * `node['confluent']['kafka_broker']['systemd_unit_mode']` -  Defaults to `0644`.
 * `node['confluent']['kafka_broker']['systemd_unit_owner']` -  Defaults to `root`.
 * `node['confluent']['kafka_broker']['systemd_unit_group']` -  Defaults to `root`.
@@ -201,7 +201,7 @@
 
 * [confluent::control_center](#confluentcontrol_center) - This recipe is used to install the Confluent Control Center monitoring application.
 * [confluent::default](#confluentdefault) - This recipe is used to install the Confluent YUM or APT repositories and the installation package for the Confluent Platform.
-* [confluent::kafka_broker](#confluentkafka_broker) - This recipe is used to install an Apache Kafka Broker using the Confluent installation packages.
+* [confluent::kafka_broker](#confluentkafka_broker) - This recipe is used to install an Apache Kafka Broker using the Confluent Platform installations.
 * [confluent::kafka_connect_distributed](#confluentkafka_connect_distributed) - This recipe is used to install an Apache Kafka Connect worker in distributed mode using the Confluent installation packages.
 * [confluent::kafka_connect_standalone](#confluentkafka_connect_standalone) - This recipe is used to install an Apache Kafka Connect worker in standalone mode using the Confluent installation packages.
 * [confluent::schema_registry](#confluentschema_registry) - This recipe is used to install the Confluent Schema Registry using the Confluent installation packages.
@@ -211,28 +211,316 @@
 
 This recipe is used to install the Confluent Control Center monitoring application.
 
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "control_center": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
+```
+
+#### Internal repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "control_center": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::control_center]"
+  ]
+}
+```
+
+
 ## confluent::default
 
 This recipe is used to install the Confluent YUM or APT repositories and the installation package for the Confluent
 Platform.
 
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
+```
+
+#### Internal repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::default]"
+  ]
+}
+
 ## confluent::kafka_broker
 
-This recipe is used to install an Apache Kafka Broker using the Confluent installation packages.
+This recipe is used to install an Apache Kafka Broker using the Confluent Platform installations.
+
+
+### Examples
+
+### Standard installation
+
+```json
+{
+  "confluent": {
+    "kafka_broker": {
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_broker]"
+  ]
+}
+```
+
+### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "kafka_broker": {
+      "zookeeper_connect": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_broker]"
+  ]
+}
+```
 
 ## confluent::kafka_connect_distributed
 
 This recipe is used to install an Apache Kafka Connect worker in distributed mode using the Confluent installation packages.
 
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "kafka_connect_distributed": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_distributed]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "kafka_connect_distributed": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_distributed]"
+  ]
+}
+```
+
 ## confluent::kafka_connect_standalone
 
 This recipe is used to install an Apache Kafka Connect worker in standalone mode using the Confluent installation packages.
+
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "kafka_connect_standalone": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_standalone]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "kafka_connect_standalone": {
+      "bootstrap_servers": "kafka-01:9092,kafka-02:9092,kafka-03:9092",
+      "group_id": "connect-cluster-1"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::kafka_connect_standalone]"
+  ]
+}
+```
 
 ## confluent::schema_registry
 
 This recipe is used to install the Confluent Schema Registry using the Confluent installation packages.
 
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "schema_registry": {
+      "kafkastore_connection_url": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::schema_registry]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "schema_registry": {
+      "kafkastore_connection_url": "zookeeper-01:2181,zookeeper-02:2181,zookeeper-03:2181"
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::control_center]"
+  ]
+}
+```
+
 ## confluent::zookeeper
 
 This recipe is used to install an Apache Zookeeper server using the Confluent installation packages.
+
+
+### Examples
+
+#### Standard installation
+
+```json
+{
+  "confluent": {
+    "zookeeper": {
+      "myid": 1,
+      "config": {
+        "server.1": "zookeeper-01:2888:3888",
+        "server.2": "zookeeper-02:2888:3888",
+        "server.3": "zookeeper-03:2888:3888"
+      }
+    }
+  },
+  "run_list": [
+    "recipe[confluent::zookeeper]"
+  ]
+}
+```
+
+#### Internal Repository
+
+The following example shows how to use an internal repository instead of the Confluent official repositories.
+
+```json
+{
+  "confluent": {
+    "zookeeper": {
+      "myid": 1,
+      "config": {
+        "server.1": "zookeeper-01:2888:3888",
+        "server.2": "zookeeper-02:2888:3888",
+        "server.3": "zookeeper-03:2888:3888"
+      }
+    },
+    "default": {
+      "yum_repository_url": "http://repo.example.com/confluent/rpm/4.0",
+      "yum_dist_repository_url": "http://repo.example.com/confluent/rpm/4.0/7",
+      "yum_key_url": "http://repo.example.com/confluent/4.0/archive.key"
+    }
+  },
+  "run_list": [
+    "recipe[confluent::zookeeper]"
+  ]
+}
+```
 

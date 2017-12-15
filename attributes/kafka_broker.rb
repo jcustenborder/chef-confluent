@@ -1,18 +1,30 @@
+#<> Kafka user: The username of the system account that will be created on the host machine. All data directories and log directories will be owned by this user.
 default['confluent']['kafka_broker']['user']              = 'kafka'
+#<> Config File owner: The owner for the configuration file.
 default['confluent']['kafka_broker']['config_file_owner'] = 'root'
+#<> Config File mode: The permissions for the configuration file.
 default['confluent']['kafka_broker']['config_file_mode']  = '0644'
+#<> Config File: The path to the configuration file.
 default['confluent']['kafka_broker']['config_file']       = '/etc/kafka/server.properties'
-
+#<> Logging Config File: The owner of the logging config
 default['confluent']['kafka_broker']['logging_config_file_owner'] = 'root'
+#<> Logging Config Mode: The permissions for the logging config.
 default['confluent']['kafka_broker']['logging_config_file_mode']  = '0644'
+#<> Logging Config: The path to the logging config.
 default['confluent']['kafka_broker']['logging_config_file']       = '/etc/kafka/server.logging.properties'
-
+#<> Data directory: The location to store the data.
 default['confluent']['kafka_broker']['data_dir']                       = '/var/lib/kafka'
+#<> Data directory Mode: The permissions for the data directory.
 default['confluent']['kafka_broker']['data_dir_mode']                  = '0755'
+#<> Log directory: The directory to store the application logs.
 default['confluent']['kafka_broker']['log_dir']                        = '/var/log/kafka'
+#<> Log directory Mode: The permissions to the log directory.
 default['confluent']['kafka_broker']['log_dir_mode']                   = '0755'
+#<> Service Name: The name of the service
 default['confluent']['kafka_broker']['service']                        = 'kafka'
+#<> Service Action: The actions for the service
 default['confluent']['kafka_broker']['service_action']                 = [:enable, :start]
+#<> SystemD Unit: The path to the SystemD unit.
 default['confluent']['kafka_broker']['systemd_unit']                   =
     case node['platform_family']
       when 'debian'
@@ -21,8 +33,9 @@ default['confluent']['kafka_broker']['systemd_unit']                   =
         '/usr/lib/systemd/system/kafka.service'
     end
 
-
+#<> Limit.d config: The path to the limit.d file for the service account user.
 default['confluent']['kafka_broker']['file_limit_config'] = '/etc/security/limits.d/99-confluent-kafka-broker.config'
+#<> Limit.d nofile: The maximum number of file handles to the process.
 default['confluent']['kafka_broker']['file_limit'] = 1000000
 default['confluent']['kafka_broker']['systemd_unit_mode']              = '0644'
 default['confluent']['kafka_broker']['systemd_unit_owner']             = 'root'
