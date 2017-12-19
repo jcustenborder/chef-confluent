@@ -104,7 +104,7 @@ template node['confluent']['control_center']['config_file'] do
   group 'root'
   mode node['confluent']['control_center']['config_file_mode']
   source 'control_center/control-center.properties.erb'
-  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :delayed
 end
 
 template node['confluent']['control_center']['logging_config_file'] do
@@ -119,7 +119,7 @@ template node['confluent']['control_center']['environment_file'] do
   group node['confluent']['control_center']['environment_file_group']
   mode node['confluent']['control_center']['environment_file_mode']
   source 'control_center/environment.erb'
-  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :delayed
 end
 
 template node['confluent']['control_center']['file_limit_config'] do
@@ -127,7 +127,7 @@ template node['confluent']['control_center']['file_limit_config'] do
   group 'root'
   mode '0644'
   source 'control_center/limits.d.conf.erb'
-  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :delayed
 end
 
 template node['confluent']['control_center']['systemd_unit'] do
@@ -136,7 +136,7 @@ template node['confluent']['control_center']['systemd_unit'] do
   mode node['confluent']['control_center']['environment_file_mode']
   source 'control_center/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['control_center']['service']}]", :delayed
 end
 
 service node['confluent']['control_center']['service'] do

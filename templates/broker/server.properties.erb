@@ -1,5 +1,5 @@
 # Cooked by Chef
-broker.id=<%= node['confluent']['kafka']['broker_id'] %>
+broker.id=<%= node['confluent']['kafka_broker']['broker_id'] %>
 zookeeper.connect=<%= node['confluent']['kafka_broker']['zookeeper_connect'] %>
 log.dirs=<%= node['confluent']['kafka_broker']['data_dir'].kind_of?(Array) ? node['confluent']['kafka_broker']['data_dir'].join(',') : node['confluent']['kafka_broker']['data_dir'] %>
 <%- node['confluent']['kafka_broker']['config'].sort.each do |key, value| -%>

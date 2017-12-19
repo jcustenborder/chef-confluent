@@ -1,0 +1,14 @@
+# Cooked by Chef
+[Confluent.dist]
+name=Confluent repository (dist)
+baseurl=<%= node['confluent']['yum_dist_repository_url'] %>
+gpgcheck=<%=node['confluent']['gpg_check'] %>
+gpgkey=<%= node['confluent']['yum_key_url'] %>
+enabled=<%=node['confluent']['repo_enabled'] %>
+
+[Confluent]
+name=Confluent repository
+baseurl=<%= node['confluent']['yum_repository_url'] %>
+gpgcheck=<%=node['confluent']['gpg_check'] %>
+gpgkey=<%= node['confluent']['yum_key_url'] %>
+enabled=<%=node['confluent']['repo_enabled'] %>

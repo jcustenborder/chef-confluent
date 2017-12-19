@@ -91,7 +91,7 @@ template node['confluent']['kafka_connect_distributed']['config_file'] do
   group 'root'
   mode node['confluent']['kafka_connect_distributed']['config_file_mode']
   source 'kafka_connect_distributed/connect-distributed.properties.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_connect_distributed']['logging_config_file'] do
@@ -106,7 +106,7 @@ template node['confluent']['kafka_connect_distributed']['environment_file'] do
   group node['confluent']['kafka_connect_distributed']['environment_file_group']
   mode node['confluent']['kafka_connect_distributed']['environment_file_mode']
   source 'kafka_connect_distributed/environment.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_connect_distributed']['file_limit_config'] do
@@ -114,7 +114,7 @@ template node['confluent']['kafka_connect_distributed']['file_limit_config'] do
   group 'root'
   mode '0644'
   source 'kafka_connect_distributed/limits.d.conf.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_connect_distributed']['systemd_unit'] do
@@ -123,7 +123,7 @@ template node['confluent']['kafka_connect_distributed']['systemd_unit'] do
   mode node['confluent']['kafka_connect_distributed']['environment_file_mode']
   source 'kafka_connect_distributed/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_connect_distributed']['service']}]", :delayed
 end
 
 service node['confluent']['kafka_connect_distributed']['service'] do

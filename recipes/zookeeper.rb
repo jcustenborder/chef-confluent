@@ -104,7 +104,7 @@ template myid_path do
   group node['confluent']['zookeeper']['user']
   mode '0644'
   source 'zookeeper/myid.erb'
-  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :delayed
 end
 
 
@@ -113,7 +113,7 @@ template node['confluent']['zookeeper']['config_file'] do
   group 'root'
   mode node['confluent']['zookeeper']['config_file_mode']
   source 'zookeeper/zookeeper.properties.erb'
-  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :delayed
 end
 
 template node['confluent']['zookeeper']['logging_config_file'] do
@@ -128,7 +128,7 @@ template node['confluent']['zookeeper']['environment_file'] do
   group node['confluent']['zookeeper']['environment_file_group']
   mode node['confluent']['zookeeper']['environment_file_mode']
   source 'zookeeper/environment.erb'
-  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :delayed
 end
 
 template node['confluent']['zookeeper']['file_limit_config'] do
@@ -136,7 +136,7 @@ template node['confluent']['zookeeper']['file_limit_config'] do
   group 'root'
   mode '0644'
   source 'zookeeper/limits.d.conf.erb'
-  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :delayed
 end
 
 template node['confluent']['zookeeper']['systemd_unit'] do
@@ -145,7 +145,7 @@ template node['confluent']['zookeeper']['systemd_unit'] do
   mode node['confluent']['zookeeper']['environment_file_mode']
   source 'zookeeper/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['zookeeper']['service']}]", :delayed
 end
 
 service node['confluent']['zookeeper']['service'] do

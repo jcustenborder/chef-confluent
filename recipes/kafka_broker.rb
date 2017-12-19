@@ -94,7 +94,7 @@ template node['confluent']['kafka_broker']['config_file'] do
   group 'root'
   mode node['confluent']['kafka_broker']['config_file_mode']
   source 'broker/server.properties.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_broker']['logging_config_file'] do
@@ -109,7 +109,7 @@ template node['confluent']['kafka_broker']['environment_file'] do
   group node['confluent']['kafka_broker']['environment_file_group']
   mode node['confluent']['kafka_broker']['environment_file_mode']
   source 'broker/environment.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_broker']['file_limit_config'] do
@@ -117,7 +117,7 @@ template node['confluent']['kafka_broker']['file_limit_config'] do
   group 'root'
   mode '0644'
   source 'broker/limits.d.conf.erb'
-  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :delayed
 end
 
 template node['confluent']['kafka_broker']['systemd_unit'] do
@@ -126,7 +126,7 @@ template node['confluent']['kafka_broker']['systemd_unit'] do
   mode node['confluent']['kafka_broker']['environment_file_mode']
   source 'broker/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['kafka_broker']['service']}]", :delayed
 end
 
 service node['confluent']['kafka_broker']['service'] do

@@ -49,6 +49,7 @@ The following example shows how to use an internal repository instead of the Con
     "recipe[confluent::default]"
   ]
 }
+```
 #>
 =end
 case node['platform_family']
@@ -59,24 +60,15 @@ case node['platform_family']
       distribution 'stable'
       components ['main']
       arch 'amd64'
-    end if node['confluent']['manage_repo']
+    end
   when 'rhel'
-    yum_repository 'Confluent' do
-      description 'Confluent repository'
-      baseurl node['confluent']['yum_repository_url']
-      gpgkey node['confluent']['yum_key_url']
-      gpgcheck node['confluent']['gpg_check']
-      enabled node['confluent']['repo_enabled']
+    template '/etc/yum.repos.d/confluent.repo' do
+      owner 'root'
+      group 'root'
+      mode '0644'
+      source 'default/yum.repos.d/confluent.repo.erb/confluent.erb'
     end
-
-    yum_repository 'Confluent.dist' do
-      description 'Confluent repository (dist)'
-      baseurl node['confluent']['yum_dist_repository_url']
-      gpgkey node['confluent']['yum_key_url']
-      gpgcheck node['confluent']['gpg_check']
-      enabled node['confluent']['repo_enabled']
-    end
-end
+end if node['confluent']['manage_repo']
 
 package 'confluent-platform' do # ~FC009 only available in apt_package. See #388
   package_name node['confluent']['package']

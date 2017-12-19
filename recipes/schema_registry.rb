@@ -53,7 +53,7 @@ The following example shows how to use an internal repository instead of the Con
     }
   },
   "run_list": [
-    "recipe[confluent::control_center]"
+    "recipe[confluent::schema_registry]"
   ]
 }
 ```
@@ -85,7 +85,7 @@ template node['confluent']['schema_registry']['config_file'] do
   group 'root'
   mode node['confluent']['schema_registry']['config_file_mode']
   source 'schema_registry/schema-registry.properties.erb'
-  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :delayed
 end
 
 template node['confluent']['schema_registry']['logging_config_file'] do
@@ -100,7 +100,7 @@ template node['confluent']['schema_registry']['environment_file'] do
   group node['confluent']['schema_registry']['environment_file_group']
   mode node['confluent']['schema_registry']['environment_file_mode']
   source 'schema_registry/environment.erb'
-  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :delayed
 end
 
 template node['confluent']['schema_registry']['file_limit_config'] do
@@ -108,7 +108,7 @@ template node['confluent']['schema_registry']['file_limit_config'] do
   group 'root'
   mode '0644'
   source 'schema_registry/limits.d.conf.erb'
-  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :delayed
 end
 
 template node['confluent']['schema_registry']['systemd_unit'] do
@@ -117,7 +117,7 @@ template node['confluent']['schema_registry']['systemd_unit'] do
   mode node['confluent']['schema_registry']['environment_file_mode']
   source 'schema_registry/systemd.erb'
   notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :immediately
+  notifies :restart, "service[#{node['confluent']['schema_registry']['service']}]", :delayed
 end
 
 service node['confluent']['schema_registry']['service'] do
